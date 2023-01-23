@@ -1,0 +1,27 @@
+[submodule "git_01-bases"]
+	path = git_01-bases
+	url = https://github.com/ismaBlazquez/git_01-bases
+[submodule "git_02-bases"]
+	path = git_02-bases
+	url = https://github.com/ismaBlazquez/git_02-bases
+[submodule "git_03-Instalaciones"]
+	path = git_03-Instalaciones
+	url = https://github.com/ismaBlazquez/git_03-Instalaciones
+[submodule "git_04-Materia-Heroes"]
+	path = git_04-Materia-Heroes
+	url = https://github.com/ismaBlazquez/git_04-Materia-Heroes
+[submodule "git_05-tarea"]
+	path = git_05-tarea
+	url = https://github.com/ismaBlazquez/git_05-tarea
+[submodule "git_06-demo"]
+	path = git_06-demo
+	url = https://github.com/ismaBlazquez/git_06-demo
+[submodule "git_08-demo-rebase"]
+	path = git_08-demo-rebase
+	url = https://github.com/ismaBlazquez/git_08-demo-rebase
+[submodule "git_09-herores"]
+	path = git_09-herores
+	url = https://github.com/ismaBlazquez/git_09-herores
+[submodule "git_07-demo-stash"]
+	path = git_07-demo-stash
+	url = https://github.com/ismaBlazquez/git_07-demo-stash
