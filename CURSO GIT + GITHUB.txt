@@ -1,0 +1,221 @@
+CURSO GIT + GITHUB.txt
+CURSO GIT + GITHUB
+_______________________________________________________________________________
+CONFIGURACIÓN
+
+modificar configuración: git config --global -e
+Usuario: git config --global user.name "Ismael Blazquez"
+Email: git config --global user.email "ismatrompeta4@gmail.com"
+
+
+Inicializar repositorio en directorio: git init
+
+git status
+git status --short
+
+añadir: git add <ficheros> ó . (todos)
+quitar archivo: git reset <archivo>
+
+git commit -m "Comentario"
+Agregar sin pasar por staged: git commit -am “Comentario”
+
+git log
+git log --oneline --decorate --all --graph
+
+git reflog (incluye resets, commits, etc)
+
+checkout completo del ultimo commit: git checkout -- .
+
+Rama en la que se está trabajando: git branch
+cambiar nombre de la rama: git branch -m <nombre> <nuevoNombre>
+
+
+
+ALIAS
+git config --global alias.<nombre> "<comando>""
+git config --global alias.s "status --short"
+
+Alias útil:
+git config --global alias.lg "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+
+COMPARAR ANTES DE SUBIR AL STAGED CON GIT ADD
+git diff
+COMPARAR EN EL STAGED
+git diff -- staged
+
+Cambiar mensaje del último commit
+git commit --amend -m “”
+
+Incluir más cambios en commit anterior. Volvemos local a un commit especifico:
+git reset  --soft HEAD^ 
+(HEAD se puede cambiar por el hash de un commit específico al que queremos ir) 
+(^ se usa para indicar el último commit. Se puede ^1,2,3…)
+(--mixed en vez de soft similar, no destructivo) (--hard es destructivo, deja el directorio como estaba en el commit al que volvamos)
+Git commit nuevo.
+
+RECUPERAR CAMBIOS PERDIDO POR GIT RESET
+git reflog para ver histórico completo.
+git reset --hard hash del git reflog
+
+MOVER/RENOMBRAR ARCHIVOS 
+Renombrar archivo desde directorio y hacer add y commit. (Para git puede ser como borrar el anterior y crear uno nuevo. Si sale una “R” es rename y conserva el histórico)
+git mv archivo destino (si se mueve al mismo directorio es como renombrar. Se hace en el staged, hay que hacer commit)
+BORRAR ARCHIVOS
+Borrar el archivo desde el directorio y hacer add y commit.
+git rm archivo (se hace en el staged, hay que hacer commit para subir el “borrado”)
+
+IGNORAR ARCHIVOS/DIRECTORIOS:
+Fichero .gitignore: En cada lunes cada directorio (terminado en ‘/’ o archivo) Hay que hacerle add y commit.
+
+_______________________________________________________________________________
+
+RAMAS
+
+- Fast-forward: No hay cambio en la rama principal y los cambios de nuestra rama se añaden sin problemas a ella.
+- Uniones automáticas: Ha habido algún cambio en la rama principal que nuestra rama no tiene pero no se han tocado las mismas partes de código y git lo hace automatico.
+- Unión manual con conflictos: Ha habido cambios en la rama principal  y en nuestra rama y es en los mismos archivos o partes del código y e producen conflictos.
+
+
+Ver ramas: git branch
+Crear rama: git branch <nombre_rama> -> Crear rama pero no se cambia a ella.
+Mover a rama: git checkout <nombre_rama>
+
+Crear rama y mover a ella: git checkout -b <nombre_rama>
+
+Merge ramas: git merge <nombre_rama>
+*Hay que estar en la rama donde queremos volcar los cambios (master)*
+
+Borrar rama: git branch -d <nombre_rama> (-f de manera forzada)
+
+TAGS: Se usan para crear versiones del codigo
+Crear tag: git tag <nombre_tag>
+Crear tag con anotacion: git tag -a <nombre_tag> <hash de commit (opcional)> -m "Comentario"
+Ver tags creados: git tag
+Borrar tag: git tag -d <nombre_tag>
+Info completa de un tag: git show <nombre_tag>
+_______________________________________________________________________________
+
+GIT STASH
+Lugar donde se pueden guardar los cambios a los que no se ha hecho commit aún. 
+Ej: Nueva funcionalidad que quieres guardar temporalmente para subir el resto del código menos eso.
+Pero no quieres que se pierda para incorporarla al código más tarde.
+
+Mandar codigo al stash: git stash
+Mandar codigo al stash con informacion: git stash save "Comentario"
+Info de lo que hay en el stash: git stash list
+Recuperar código del stash: git stash pop
+Recuperar código de stash determinado: git stash apply <stash@{N}>
+
+Eliminar lo almacenado en stash: git stash clear (Borra TODOS los stash)
+Eliminar un stash: git stash drop <stash@{N}>
+
+Info de un stash: git stash show stash@{N}
+                  git stash list --stat
+_______________________________________________________________________________
+
+GIT REBASE
+Permite unir, separar, renombrar etc commits.
+
+Git rebase master: Va a crear un área temporal donde mueve los commits de la rama que NO es la master.
+					Y después va a mover el puntero de la rama hacia el ultimo commit de la rama master.
+					Y va a mover los commits del area temporal a la rama que NO es la master
+					(Es como mover la rama hacia delante en el tiempo con respecto a la rama master)
+
+Rebase interactivo: git rebase -i HEAD~3 (Nº es cantidad de commits hacia atras)
+	-Ordenar commits -Corregir mensajes de los commits -Unir commits -Separar commits
+EJ:
+	* 158ba9e - (6 years ago) Se agrego a la liga: Volcán Negro - Strider (HEAD -> master)
+	* 300c014 - (6 years ago) Misiones nuevas agregadas - Strider
+	| * 8e755a3 - (6 years ago) Actualizamos dos misiones completadas al momento - Strider (rama-misiones-completadas)
+	| * cc55aaf - (6 years ago) Agregamos el archivo de las misiones completadas - Strider
+	|/  
+	* acea380 - (6 years ago) Actualización de las misiones - Strider
+git rebase master Desde la rama-misiones-completadas 
+	* c2c04cd - (6 years ago) Actualizamos dos misiones completadas al momento - Strider (HEAD -> rama-misiones-completadas)
+	* a28f4ed - (6 years ago) Agregamos el archivo de las misiones completadas - Strider
+	* 158ba9e - (6 years ago) Se agrego a la liga: Volcán Negro - Strider (master)
+	* 300c014 - (6 years ago) Misiones nuevas agregadas - Strider
+	* acea380 - (6 years ago) Actualización de las misiones - Strider
+git checkout master
+git merge rama-misiones-completas (Fast-forward)
+	* c2c04cd - (6 years ago) Actualizamos dos misiones completadas al momento - Strider (HEAD -> master, rama-misiones-completadas)
+	* a28f4ed - (6 years ago) Agregamos el archivo de las misiones completadas - Strider
+	* 158ba9e - (6 years ago) Se agrego a la liga: Volcán Negro - Strider
+	* 300c014 - (6 years ago) Misiones nuevas agregadas - Strider
+	* acea380 - (6 years ago) Actualización de las misiones - Strider			
+
+Unir commits (donde se actualizó mismo fichero por ejemplo) Une el último commit al anterior:
+git rebase -i HEAD~4 y Usar squash para unir commits
+
+Cambiar comentario del commit: git rebase -i HEAD~4 y utilizar reword
+
+editar commits (por ejemplo para separar el ultimo commit en varios): 
+-git rebase -i HEAD~4 y utilizar edit
+
+-Hacer los cambios en los archivos que sean (git reset HEAD^ para volver al commit anterior y hacer los cambios)
+	* ddf3fad - (56 seconds ago) misiones actualizadas - Ismael Blazquez (HEAD)
+	* e8d42ca - (71 seconds ago) agregamos a Deadshot - Ismael Blazquez
+	| * 4f47dc9 - (6 minutes ago) commits - Ismael Blazquez (master)
+	|/
+	* 5320cc0 - (6 years ago) Todas las misiones completadas actualizadas - Strider
+-git rebase --continue
+	* ddf3fad - (84 seconds ago) misiones actualizadas - Ismael Blazquez (HEAD -> master)
+	* e8d42ca - (2 minutes ago) agregamos a Deadshot - Ismael Blazquez
+	* 5320cc0 - (6 years ago) Todas las misiones completadas actualizadas - Strider
+_______________________________________________________________________________
+
+GITHUB - Platarforma de desarrollo colaborativo de software para alojar proyectos
+Git-Repositorio. Controlador de versiones local
+
+Añadir un remote: git remote add origin https://github.com/ismaBlazquez/cursoGit.git
+git branch -M main
+git push -u origin master
+	-origin es el nombre del repositorio
+	-master es la rama que deseamos enviar
+	--u es para establecer master como rama por defecto
+
+Info de donde se hace pull y push: git remote -v
+
+Subir codigo al repositorio: git push
+
+Los tags no se suben solos a github
+Subir tags: git push --tags
+
+Bajar los cambios del repositorio a local: git pull
+
+
+clonar un repositorio en un directorio local: git clone <url.git> 
+									Ej: git clone https://github.com/ismaBlazquez/git_09-herores.git
+
+
+Para resolver conflictos al hacer pull de un repositorio: git config pull.rebase true
+Para resolver conflictos al hacer pull de manera global: git config --global pull.rebase true
+
+
+
+git fetch: actualiza en local con lo que hay en github pero no actualiza el puntero de HEAD->main
+
+Cerrar una issue de GitHub de manera manual:
+git commit -am "Fixes #N: Comment" -> donde N es el numero que tiene esa issue asignada en gitHub
+
+Milestone: Agrupador de Issues.
+_______________________________________________________________________________
+
+
+
+
+
+
+_______________________________________________________________________________
+
+
+
+
+
+__________________________________________________________________________________________________________________________________
+
+
+
+
+
+_______________________________________________________________________________
