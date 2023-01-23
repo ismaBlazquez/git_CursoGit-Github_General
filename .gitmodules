@@ -25,3 +25,6 @@
 [submodule "git_07-demo-stash"]
 	path = git_07-demo-stash
 	url = https://github.com/ismaBlazquez/git_07-demo-stash
+[submodule "git_10-fork_legio-del-mal"]
+	path = git_10-fork_legio-del-mal
+	url = https://github.com/ismaBlazquez/git_10-fork_legio-del-mal
