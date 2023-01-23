@@ -199,6 +199,12 @@ Cerrar una issue de GitHub de manera manual:
 git commit -am "Fixes #N: Comment" -> donde N es el numero que tiene esa issue asignada en gitHub
 
 Milestone: Agrupador de Issues.
+
+CREAR SUBMODULO DE UN REPOSITORIO: git submodule add <repo-URL> <repo-local-dir>
+git submodule init para inicializar su archivo de configuración local y git submodule update para obtener todos los datos de ese proyecto
+
+CLONAR REPOSITORIO Y SUS SUBMODULOS: git clone --recurse-submodules <repo-URL>
+CLONAR REPOSITORIO Y SUS SUBMODULOS EN LA ULTIMA VERSION: git clone --recurse-submodules --remote-submodules <repo-URL>
 _______________________________________________________________________________
 
 
