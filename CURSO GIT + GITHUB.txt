@@ -25,18 +25,24 @@ git log --oneline --decorate --all --graph
 git reflog (incluye resets, commits, etc)
 
 checkout completo del ultimo commit: git checkout -- .
+checkout a un commit y para un solo archivo: git checkout <hash_commit> <nombre_fichero>
 
 Rama en la que se está trabajando: git branch
 cambiar nombre de la rama: git branch -m <nombre> <nuevoNombre>
-
+Ver todas las ramas (incluidas otras del github en las que nosotros no hemos trabajado):
+git branch -a
 
 
 ALIAS
+git config --global -e
 git config --global alias.<nombre> "<comando>""
 git config --global alias.s "status --short"
 
-Alias útil:
+Alias útil para log:
 git config --global alias.lg "log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+
+Alias util para git status:
+git config --global alias.s "status --short --branch"
 
 COMPARAR ANTES DE SUBIR AL STAGED CON GIT ADD
 git diff
@@ -86,6 +92,8 @@ Merge ramas: git merge <nombre_rama>
 *Hay que estar en la rama donde queremos volcar los cambios (master)*
 
 Borrar rama: git branch -d <nombre_rama> (-f de manera forzada)
+Borrar rama remota: 
+ - git remote prune origin (te dice ramas que en remoto ya no existen: "pruned" y las borra en local, ya no aparecen con git branch -a)
 
 TAGS: Se usan para crear versiones del codigo
 Crear tag: git tag <nombre_tag>
@@ -176,13 +184,16 @@ git push -u origin master
 
 Info de donde se hace pull y push: git remote -v
 
-Subir codigo al repositorio: git push
+Subir codigo al repositorio: git push 
+(Si no es tu proyecto y no estás como colaborador no se puede hacer push)
 
 Los tags no se suben solos a github
 Subir tags: git push --tags
 
-Bajar los cambios del repositorio a local: git pull
+Subir cambios en rama local: git push --set-upstream origin <nombre_rama>
 
+Bajar los cambios del repositorio a local: git pull
+Bajar los cambios incluyendo otras ramas: git pull --all
 
 clonar un repositorio en un directorio local: git clone <url.git> 
 									Ej: git clone https://github.com/ismaBlazquez/git_09-herores.git
@@ -205,6 +216,16 @@ git submodule init para inicializar su archivo de configuración local y git sub
 
 CLONAR REPOSITORIO Y SUS SUBMODULOS: git clone --recurse-submodules <repo-URL>
 CLONAR REPOSITORIO Y SUS SUBMODULOS EN LA ULTIMA VERSION: git clone --recurse-submodules --remote-submodules <repo-URL>
+
+
+Fork: Hacer copia/rama de repositorio de otro dueño a mi github. 
+Para enviar nuestros cambios al otro ropisitorio: Pull Request
+El usuario propietario tiene que aceptar el Pull Request para mergear nuestros cambios en su repo.
+
+Actualizar fork desde repositio original a nuestro fork, en local desde linea de comandos:
+- git remote add <nombre(normalmente upstream)> <url_repo_original>
+- git pull upstream master(rama)
+- Comprobar cambios, commit y push
 _______________________________________________________________________________
 
 
