@@ -216,7 +216,7 @@ git submodule init para inicializar su archivo de configuración local y git sub
 
 CLONAR REPOSITORIO Y SUS SUBMODULOS: git clone --recurse-submodules <repo-URL>
 CLONAR REPOSITORIO Y SUS SUBMODULOS EN LA ULTIMA VERSION: git clone --recurse-submodules --remote-submodules <repo-URL>
-
+PULL ACTUALIZAR SUBMODULOS: git pull --recurse-submodules
 
 Fork: Hacer copia/rama de repositorio de otro dueño a mi github. 
 Para enviar nuestros cambios al otro ropisitorio: Pull Request
